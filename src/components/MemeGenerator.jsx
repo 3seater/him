@@ -237,7 +237,7 @@ const MemeGenerator = () => {
         ctx.fillText(text, x, y)
       } else if (selectedText === 'thinks-him') {
         // "He thinks he's him 😭" with Snapchat story bar
-        ctx.font = 'bold 32px Helvetica Neue, Helvetica Now Display, Helvetica, Arial, sans-serif'
+        ctx.font = '300 32px Helvetica Neue, Helvetica Now Display, Helvetica, Arial, sans-serif'
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
         
@@ -468,7 +468,7 @@ const MemeGenerator = () => {
         ctx.fillStyle = 'white'
         ctx.fillText(text, x, y)
       } else if (selectedText === 'thinks-him') {
-        ctx.font = 'bold 32px Helvetica Neue, Helvetica Now Display, Helvetica, Arial, sans-serif'
+        ctx.font = '300 32px Helvetica Neue, Helvetica Now Display, Helvetica, Arial, sans-serif'
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
         
