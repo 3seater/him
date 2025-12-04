@@ -1,7 +1,7 @@
 .custom-cursor {
   position: fixed;
-  width: 28px;
-  height: 28px;
+  width: 36px;
+  height: 36px;
   pointer-events: none;
   z-index: 9998;
   transform: translate(2px, 2px);
