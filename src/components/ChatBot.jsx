@@ -41,6 +41,17 @@ const ChatBot = () => {
       }])
       lastResponseRef.current = null // Reset when chat opens
     }
+    
+    // Prevent body scroll on mobile when chat is open
+    if (isOpen) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = ''
+    }
+    
+    return () => {
+      document.body.style.overflow = ''
+    }
   }, [isOpen])
 
   const handleSend = (e) => {
@@ -93,8 +104,10 @@ const ChatBot = () => {
       )}
 
       {isOpen && (
-        <div className="chat-container">
-          <div className="chat-header">
+        <>
+          <div className="chat-backdrop" onClick={() => setIsOpen(false)}></div>
+          <div className="chat-container">
+            <div className="chat-header">
             <div className="chat-header-content">
               <span className="chat-bot-name">Himothy</span>
               <span className="chat-status">Online</span>
@@ -143,6 +156,7 @@ const ChatBot = () => {
             </button>
           </form>
         </div>
+        </>
       )}
     </>
   )
