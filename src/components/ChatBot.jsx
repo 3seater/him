@@ -6,6 +6,7 @@ const ChatBot = () => {
   const [messages, setMessages] = useState([])
   const [inputValue, setInputValue] = useState('')
   const messagesEndRef = useRef(null)
+  const lastResponseRef = useRef(null)
 
   const memePhrases = [
     "he thinks he's him 😭😭",
@@ -14,9 +15,12 @@ const ChatBot = () => {
     "become him",
     "bro is him",
     "i am him",
-    "we are HIM",
-    "i am HIM",
-    "bro thinks hes HIM"
+    "we are him",
+    "i am him",
+    "bro thinks hes him",
+    "i want to be him so bad",
+    "how do i become him",
+    "are you him"
   ]
 
   const scrollToBottom = () => {
@@ -32,9 +36,10 @@ const ChatBot = () => {
       // Add initial greeting when chat opens
       setMessages([{
         id: 1,
-        text: "Hello, my name is Himothy, how may I help you?",
+        text: "hello, my name is himothy, how may i help you?",
         isBot: true
       }])
+      lastResponseRef.current = null // Reset when chat opens
     }
   }, [isOpen])
 
@@ -51,12 +56,21 @@ const ChatBot = () => {
     setMessages(prev => [...prev, userMessage])
     setInputValue('')
 
-    // Bot responds with random meme phrase
+    // Bot responds with random meme phrase (never the same as last response)
     setTimeout(() => {
-      const randomPhrase = memePhrases[Math.floor(Math.random() * memePhrases.length)]
+      let randomPhrase
+      let attempts = 0
+      do {
+        randomPhrase = memePhrases[Math.floor(Math.random() * memePhrases.length)]
+        attempts++
+        // Safety check to prevent infinite loop
+        if (attempts > 50) break
+      } while (randomPhrase === lastResponseRef.current && memePhrases.length > 1)
+      
+      lastResponseRef.current = randomPhrase
       const botMessage = {
         id: Date.now() + 1,
-        text: randomPhrase,
+        text: randomPhrase.toLowerCase(),
         isBot: true
       }
       setMessages(prev => [...prev, botMessage])
