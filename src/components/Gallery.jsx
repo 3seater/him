@@ -132,31 +132,41 @@ const Gallery = () => {
               />
               <button
                 className="copy-button"
-                onClick={(e) => {
+                onClick={async (e) => {
                   e.stopPropagation()
                   const originalIndex = index % imageSources.length
-                  setCopiedIndex(originalIndex)
-                  setShowToast(true)
-                  setToastKey(prev => prev + 1)
                   
-                  setTimeout(() => {
-                    setShowToast(false)
+                  try {
+                    // Fetch the image with cache-busting to ensure fresh copy
+                    const response = await fetch(src, { cache: 'no-store' })
+                    if (!response.ok) throw new Error('Failed to fetch image')
+                    
+                    const blob = await response.blob()
+                    
+                    // Create a fresh blob with explicit type
+                    const imageBlob = new Blob([blob], { type: blob.type || 'image/png' })
+                    
+                    // Write to clipboard - this will replace any previous clipboard content
+                    await navigator.clipboard.write([
+                      new ClipboardItem({
+                        [imageBlob.type]: imageBlob
+                      })
+                    ])
+                    
+                    // Show feedback after successful copy
+                    setCopiedIndex(originalIndex)
+                    setShowToast(true)
+                    setToastKey(prev => prev + 1)
+                    
                     setTimeout(() => {
-                      setCopiedIndex(null)
-                    }, 100)
-                  }, 2000)
-                  
-                  // Copy to clipboard
-                  fetch(src)
-                    .then(response => response.blob())
-                    .then(blob => {
-                      navigator.clipboard.write([
-                        new ClipboardItem({
-                          [blob.type]: blob
-                        })
-                      ])
-                    })
-                    .catch(err => console.error('Failed to copy image:', err))
+                      setShowToast(false)
+                      setTimeout(() => {
+                        setCopiedIndex(null)
+                      }, 100)
+                    }, 2000)
+                  } catch (err) {
+                    console.error('Failed to copy image:', err)
+                  }
                 }}
                 aria-label="Copy image"
               >
