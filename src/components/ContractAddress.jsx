@@ -7,8 +7,8 @@ const ContractAddress = () => {
   const [toastKey, setToastKey] = useState(0)
   const [isCopied, setIsCopied] = useState(false)
   
-  // Blurred placeholder Solana CA
-  const contractAddress = 'So11111111111111111111111111111111111111112'
+      // Solana CA
+      const contractAddress = 'Djt3vaGxBdLBxePye5gpeted5hF5KWqhEkNwd8n7pump'
 
   const handleCopy = async () => {
     // Show toast feedback

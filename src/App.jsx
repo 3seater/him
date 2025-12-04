@@ -17,7 +17,7 @@ function App() {
       <ScrollProgress />
       <CustomCursor />
           <div className="buttons-container">
-            <SlideInButton label="pump.fun" link="https://pump.fun" />
+            <SlideInButton label="pump.fun" link="https://pump.fun/coin/Djt3vaGxBdLBxePye5gpeted5hF5KWqhEkNwd8n7pump" />
             <SlideInButton label="lore" link="https://knowyourmeme.com/memes/bro-thinks-hes-him-im-him" />
             <SlideInButton label="twitter" link="https://x.com/tickerHIM" />
           </div>

@@ -39,7 +39,6 @@
   font-weight: 400;
   font-size: 1.25rem;
   color: black;
-  filter: blur(4px);
   user-select: none;
   letter-spacing: 0.05em;
   font-family: 'Courier New', monospace;
