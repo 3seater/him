@@ -23,6 +23,8 @@ const Gallery = () => {
     '/images/he-thinks-hes-him-v0-3rho7ciq9i7b1.webp',
     '/images/images (31).jpg',
     '/images/obi-wan-of-course-i-know-him-hes-me.jpg',
+    '/images/prime-he-is-him.gif',
+    '/images/Screenshot 2025-12-04 033102.png',
     '/images/sukuna-shibuya.gif',
   ]
 
