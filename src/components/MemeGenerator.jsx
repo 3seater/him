@@ -557,10 +557,19 @@ const MemeGenerator = () => {
             onMouseUp={handleMouseUp}
             onTouchMove={handleTouchMove}
             onTouchEnd={handleTouchEnd}
+            style={imageUrl && imageDimensions.height > 0 ? { height: 'auto', minHeight: 'auto' } : {}}
           >
             {imageUrl ? (
               <>
-                <img src={imageUrl} alt="Uploaded" className="meme-preview-image" />
+                <img 
+                  src={imageUrl} 
+                  alt="Uploaded" 
+                  className="meme-preview-image"
+                  onLoad={(e) => {
+                    const img = e.target
+                    setImageDimensions({ width: img.naturalWidth, height: img.naturalHeight })
+                  }}
+                />
                 {selectedText && (
                   <div 
                     className="meme-text-overlay"
