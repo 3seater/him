@@ -6,11 +6,13 @@ import Copyright from './components/Copyright'
 import CustomCursor from './components/CustomCursor'
 import ScrollProgress from './components/ScrollProgress'
 import MemeGenerator from './components/MemeGenerator'
+import Preloader from './components/Preloader'
 import './App.css'
 
 function App() {
   return (
     <div className="app">
+      <Preloader />
       <ScrollProgress />
       <CustomCursor />
           <div className="buttons-container">
