@@ -10,6 +10,8 @@ const SlideInButton = ({ label, link }) => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
       whileTap={{ scale: 0.98 }}
+      target="_blank"
+      rel="noopener noreferrer"
     >
       <span className="slide-in-button-text">{label}</span>
     </motion.a>
