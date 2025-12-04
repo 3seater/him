@@ -203,7 +203,7 @@
 
 .chat-send-button:hover {
   transform: scale(1.1);
-  background-color: #1473d9;
+  background-color: #178bff;
 }
 
 .chat-send-button:active {
