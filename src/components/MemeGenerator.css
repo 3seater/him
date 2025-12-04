@@ -307,8 +307,18 @@
   
   .meme-preview-container {
     min-height: 250px;
-    max-height: 300px;
+    max-height: none;
     flex: none;
+    align-items: flex-start;
+    padding: 0;
+  }
+  
+  .meme-preview-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: top center;
+    display: block;
   }
   
   .meme-options-section {
@@ -360,8 +370,18 @@
   
   .meme-preview-container {
     min-height: 200px;
-    max-height: 250px;
+    max-height: none;
     flex: none;
+    align-items: flex-start;
+    padding: 0;
+  }
+  
+  .meme-preview-image {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    object-position: top center;
+    display: block;
   }
   
   .meme-options-section {
