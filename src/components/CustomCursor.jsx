@@ -8,6 +8,11 @@ const CustomCursor = () => {
   const letterCounterRef = useRef(0)
 
   useEffect(() => {
+    // Don't run on touch devices
+    if (window.matchMedia('(hover: none) and (pointer: coarse)').matches) {
+      return
+    }
+    
     const updateCursor = (e) => {
       setPosition({ x: e.clientX, y: e.clientY })
       
@@ -20,8 +25,8 @@ const CustomCursor = () => {
       const currentLetterIndex = letterCounterRef.current % 3
       const isStartingNewBundle = currentLetterIndex === 0
       
-      // Require larger gap (80px) when starting a new "HIM" bundle, smaller gap (40px) between letters in same bundle
-      const requiredDistance = isStartingNewBundle ? 80 : 40
+      // Require larger gap (150px) when starting a new "HIM" bundle, smaller gap (40px) between letters in same bundle
+      const requiredDistance = isStartingNewBundle ? 150 : 40
       
       if (distance >= requiredDistance) {
         const letter = letters[currentLetterIndex]

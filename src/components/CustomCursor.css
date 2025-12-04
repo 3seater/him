@@ -46,3 +46,11 @@
   letter-spacing: 0;
 }
 
+/* Hide custom cursor on touch devices */
+@media (hover: none) and (pointer: coarse) {
+  .custom-cursor,
+  .cursor-trail-text {
+    display: none !important;
+  }
+}
+

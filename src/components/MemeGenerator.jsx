@@ -6,6 +6,7 @@ const MemeGenerator = () => {
   const [selectedText, setSelectedText] = useState(null)
   const [imageUrl, setImageUrl] = useState(null)
   const [textYPosition, setTextYPosition] = useState(50) // Percentage from top (50% = center)
+  const [textXPosition, setTextXPosition] = useState(50) // Percentage from left (50% = center)
   const [isDragging, setIsDragging] = useState(false)
   const [imageDimensions, setImageDimensions] = useState({ width: 0, height: 0 })
   const fileInputRef = useRef(null)
@@ -23,6 +24,7 @@ const MemeGenerator = () => {
           setImageUrl(event.target.result)
           setUploadedImage(true)
           setTextYPosition(50) // Reset to center when new image is uploaded
+          setTextXPosition(50) // Reset to center when new image is uploaded
         }
         img.src = event.target.result
       }
@@ -40,9 +42,12 @@ const MemeGenerator = () => {
     
     const container = previewContainerRef.current
     const rect = container.getBoundingClientRect()
+    const x = e.clientX - rect.left
     const y = e.clientY - rect.top
-    const percentage = (y / rect.height) * 100
-    setTextYPosition(Math.max(10, Math.min(90, percentage))) // Clamp between 10% and 90%
+    const xPercentage = (x / rect.width) * 100
+    const yPercentage = (y / rect.height) * 100
+    setTextXPosition(Math.max(10, Math.min(90, xPercentage))) // Clamp between 10% and 90%
+    setTextYPosition(Math.max(10, Math.min(90, yPercentage))) // Clamp between 10% and 90%
   }
 
   const handleMouseUp = () => {
@@ -85,7 +90,7 @@ const MemeGenerator = () => {
         ctx.textBaseline = 'middle'
         
         const text = "i am literally him"
-        const x = canvas.width / 2
+        const x = (canvas.width * textXPosition) / 100
         const y = (canvas.height * textYPosition) / 100
         
         // Black stroke
@@ -103,7 +108,43 @@ const MemeGenerator = () => {
         ctx.textBaseline = 'middle'
         
         const text = "i'll never be him"
-        const x = canvas.width / 2
+        const x = (canvas.width * textXPosition) / 100
+        const y = (canvas.height * textYPosition) / 100
+        
+        // Black stroke
+        ctx.strokeStyle = 'black'
+        ctx.lineWidth = 8
+        ctx.strokeText(text, x, y)
+        
+        // White fill
+        ctx.fillStyle = 'white'
+        ctx.fillText(text, x, y)
+      } else if (selectedText === 'become-him') {
+        // "become him" - white text with black stroke
+        ctx.font = 'bold 60px Helvetica Neue, Helvetica Now Display, Helvetica, Arial, sans-serif'
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        
+        const text = "become him"
+        const x = (canvas.width * textXPosition) / 100
+        const y = (canvas.height * textYPosition) / 100
+        
+        // Black stroke
+        ctx.strokeStyle = 'black'
+        ctx.lineWidth = 8
+        ctx.strokeText(text, x, y)
+        
+        // White fill
+        ctx.fillStyle = 'white'
+        ctx.fillText(text, x, y)
+      } else if (selectedText === 'bro-is-him') {
+        // "bro is him" - white text with black stroke
+        ctx.font = 'bold 60px Helvetica Neue, Helvetica Now Display, Helvetica, Arial, sans-serif'
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        
+        const text = "bro is him"
+        const x = (canvas.width * textXPosition) / 100
         const y = (canvas.height * textYPosition) / 100
         
         // Black stroke
@@ -120,7 +161,7 @@ const MemeGenerator = () => {
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
         
-        const text = "He thinks he's him 😭"
+        const text = "he thinks he's him 😭"
         const x = canvas.width / 2
         const y = (canvas.height * textYPosition) / 100
         
@@ -197,12 +238,42 @@ const MemeGenerator = () => {
         
         ctx.fillStyle = 'white'
         ctx.fillText(text, x, y)
+      } else if (selectedText === 'become-him') {
+        ctx.font = 'bold 60px Helvetica Neue, Helvetica Now Display, Helvetica, Arial, sans-serif'
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        
+        const text = "become him"
+        const x = canvas.width / 2
+        const y = (canvas.height * textYPosition) / 100
+        
+        ctx.strokeStyle = 'black'
+        ctx.lineWidth = 8
+        ctx.strokeText(text, x, y)
+        
+        ctx.fillStyle = 'white'
+        ctx.fillText(text, x, y)
+      } else if (selectedText === 'bro-is-him') {
+        ctx.font = 'bold 60px Helvetica Neue, Helvetica Now Display, Helvetica, Arial, sans-serif'
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        
+        const text = "bro is him"
+        const x = canvas.width / 2
+        const y = (canvas.height * textYPosition) / 100
+        
+        ctx.strokeStyle = 'black'
+        ctx.lineWidth = 8
+        ctx.strokeText(text, x, y)
+        
+        ctx.fillStyle = 'white'
+        ctx.fillText(text, x, y)
       } else if (selectedText === 'thinks-him') {
         ctx.font = 'bold 32px Helvetica Neue, Helvetica Now Display, Helvetica, Arial, sans-serif'
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
         
-        const text = "He thinks he's him 😭"
+        const text = "he thinks he's him 😭"
         const x = canvas.width / 2
         const y = (canvas.height * textYPosition) / 100
         
@@ -265,7 +336,11 @@ const MemeGenerator = () => {
                 {selectedText && (
                   <div 
                     className="meme-text-overlay"
-                    style={{ top: `${textYPosition}%`, transform: 'translateY(-50%)' }}
+                    style={{ 
+                      top: `${textYPosition}%`, 
+                      left: selectedText === 'thinks-him' ? '50%' : `${textXPosition}%`,
+                      transform: selectedText === 'thinks-him' ? 'translate(-50%, -50%)' : 'translate(-50%, -50%)'
+                    }}
                   >
                     {selectedText === 'literally-him' && (
                       <div 
@@ -283,13 +358,29 @@ const MemeGenerator = () => {
                         i'll never be him
                       </div>
                     )}
+                    {selectedText === 'become-him' && (
+                      <div 
+                        className="meme-text-literal draggable-text"
+                        onMouseDown={handleMouseDown}
+                      >
+                        become him
+                      </div>
+                    )}
+                    {selectedText === 'bro-is-him' && (
+                      <div 
+                        className="meme-text-literal draggable-text"
+                        onMouseDown={handleMouseDown}
+                      >
+                        bro is him
+                      </div>
+                    )}
                     {selectedText === 'thinks-him' && (
                       <div 
                         className="meme-text-thinks draggable-text"
                         onMouseDown={handleMouseDown}
                       >
                         <div className="snapchat-bar" />
-                        <div className="meme-text-thinks-content">He thinks he's him 😭</div>
+                        <div className="meme-text-thinks-content">he thinks he's him 😭</div>
                       </div>
                     )}
                   </div>
@@ -320,7 +411,7 @@ const MemeGenerator = () => {
             className={`meme-option-button ${selectedText === 'thinks-him' ? 'active' : ''}`}
             onClick={() => handleTextSelect('thinks-him')}
           >
-            "He thinks he's him 😭"
+            "he thinks he's him 😭"
           </button>
           
           <button
@@ -328,6 +419,20 @@ const MemeGenerator = () => {
             onClick={() => handleTextSelect('never-him')}
           >
             "i'll never be him"
+          </button>
+          
+          <button
+            className={`meme-option-button ${selectedText === 'become-him' ? 'active' : ''}`}
+            onClick={() => handleTextSelect('become-him')}
+          >
+            "become him"
+          </button>
+          
+          <button
+            className={`meme-option-button ${selectedText === 'bro-is-him' ? 'active' : ''}`}
+            onClick={() => handleTextSelect('bro-is-him')}
+          >
+            "bro is him"
           </button>
           
           {imageUrl && selectedText && (

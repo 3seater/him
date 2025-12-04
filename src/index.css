@@ -11,11 +11,17 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: white;
-  cursor: none;
 }
 
-* {
-  cursor: none !important;
+/* Hide default cursor only on non-touch devices */
+@media (hover: hover) and (pointer: fine) {
+  body {
+    cursor: none;
+  }
+  
+  * {
+    cursor: none !important;
+  }
 }
 
 #root {

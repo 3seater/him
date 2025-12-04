@@ -2,13 +2,14 @@
   max-width: 1200px;
   width: 100%;
   padding: 3rem;
-  margin: 4rem auto;
+  margin: 6rem auto 0 auto;
   background-color: white;
   border: 4px solid black;
   border-radius: 30px;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
-  position: relative;
+  position: static;
   z-index: 10;
+  clear: both;
 }
 
 .meme-generator-title {
@@ -234,6 +235,12 @@
 }
 
 @media (max-width: 768px) {
+  .meme-generator {
+    padding: 2rem;
+    margin: 4rem auto 0 auto;
+    border-radius: 20px;
+  }
+  
   .meme-generator-content {
     grid-template-columns: 1fr;
     gap: 2rem;
@@ -241,14 +248,52 @@
   
   .meme-generator-title {
     font-size: 2rem;
+    margin-bottom: 2rem;
   }
   
   .meme-text-literal {
-    font-size: 2rem;
+    font-size: 1.5rem;
   }
   
   .meme-text-thinks-content {
-    font-size: 1.75rem;
+    font-size: 1.25rem;
+  }
+  
+  .meme-preview-container {
+    min-height: 300px;
+  }
+}
+
+@media (max-width: 480px) {
+  .meme-generator {
+    padding: 1.5rem;
+    margin: 3rem auto 0 auto;
+    border-radius: 15px;
+  }
+  
+  .meme-generator-title {
+    font-size: 1.5rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .meme-text-literal {
+    font-size: 1.25rem;
+    padding: 0.75rem;
+  }
+  
+  .meme-text-thinks-content {
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  .meme-preview-container {
+    min-height: 250px;
+  }
+  
+  .meme-option-button,
+  .meme-action-button {
+    padding: 1rem 1.5rem;
+    font-size: 0.9rem;
   }
 }
 
