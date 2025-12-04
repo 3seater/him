@@ -1,0 +1,48 @@
+.custom-cursor {
+  position: fixed;
+  width: 24px;
+  height: 24px;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(2px, 2px);
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.custom-cursor::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 18px solid white;
+  filter: 
+    drop-shadow(0 0 0 black) 
+    drop-shadow(1.5px 0 0 black) 
+    drop-shadow(-1.5px 0 0 black) 
+    drop-shadow(0 1.5px 0 black) 
+    drop-shadow(0 -1.5px 0 black)
+    drop-shadow(0.5px 0.5px 0 black)
+    drop-shadow(-0.5px 0.5px 0 black)
+    drop-shadow(0.5px -0.5px 0 black)
+    drop-shadow(-0.5px -0.5px 0 black);
+}
+
+.cursor-trail-text {
+  position: fixed;
+  pointer-events: none;
+  z-index: 1;
+  color: #178bff;
+  font-family: 'Helvetica Neue', 'Helvetica Now Display', 'Helvetica', -apple-system, BlinkMacSystemFont, 'Arial', sans-serif;
+  font-weight: 700;
+  font-size: 28px;
+  line-height: 1;
+  user-select: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  letter-spacing: 0;
+}
+

@@ -1,0 +1,38 @@
+.app {
+  min-height: 100vh;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  gap: 0;
+}
+
+.buttons-container {
+  display: flex;
+  gap: 1.5rem;
+  margin-bottom: 8rem;
+  z-index: 10;
+}
+
+
+@media (max-width: 768px) {
+  .buttons-container {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 6rem;
+  }
+  
+  .app {
+    padding: 3rem 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .buttons-container {
+    margin-bottom: 4rem;
+  }
+}
+

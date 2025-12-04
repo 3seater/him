@@ -1,0 +1,254 @@
+.meme-generator {
+  max-width: 1200px;
+  width: 100%;
+  padding: 3rem;
+  margin: 4rem auto;
+  background-color: white;
+  border: 4px solid black;
+  border-radius: 30px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 10;
+}
+
+.meme-generator-title {
+  font-family: 'Helvetica Neue', 'Helvetica Now Display', 'Helvetica', -apple-system, BlinkMacSystemFont, 'Arial', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: black;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.meme-generator-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.meme-upload-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.meme-file-input {
+  display: none;
+}
+
+.meme-upload-button {
+  padding: 1rem 2rem;
+  background-color: white;
+  color: black;
+  border: 4px solid black;
+  border-radius: 20px;
+  font-family: 'Helvetica Neue', 'Helvetica Now Display', 'Helvetica', -apple-system, BlinkMacSystemFont, 'Arial', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.meme-upload-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.meme-preview-container {
+  position: relative;
+  width: 100%;
+  min-height: 400px;
+  border: 4px solid black;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: #f5f5f5;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
+  background-color: white;
+}
+
+.meme-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  padding: 3rem;
+  color: #999;
+}
+
+.meme-placeholder svg {
+  opacity: 0.5;
+}
+
+.meme-placeholder p {
+  font-family: 'Helvetica Neue', 'Helvetica Now Display', 'Helvetica', -apple-system, BlinkMacSystemFont, 'Arial', sans-serif;
+  font-size: 1rem;
+  font-weight: 500;
+  margin: 0;
+}
+
+.meme-preview-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.meme-text-overlay {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.meme-text-literal {
+  font-family: 'Helvetica Neue', 'Helvetica Now Display', 'Helvetica', -apple-system, BlinkMacSystemFont, 'Arial', sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  text-shadow: 
+    -3px -3px 0 black,
+    3px -3px 0 black,
+    -3px 3px 0 black,
+    3px 3px 0 black,
+    -3px 0 0 black,
+    3px 0 0 black,
+    0 -3px 0 black,
+    0 3px 0 black;
+  padding: 1rem;
+}
+
+.draggable-text {
+  pointer-events: all;
+  cursor: move;
+  user-select: none;
+}
+
+.meme-text-thinks {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.snapchat-bar {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 50px;
+  background-color: black;
+  opacity: 0.3;
+  z-index: 1;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.meme-text-thinks-content {
+  position: relative;
+  z-index: 2;
+  font-family: 'Helvetica Neue', 'Helvetica Now Display', 'Helvetica', -apple-system, BlinkMacSystemFont, 'Arial', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: white;
+  text-align: center;
+  padding: 0.75rem 1.5rem;
+}
+
+.meme-options-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.meme-options-title {
+  font-family: 'Helvetica Neue', 'Helvetica Now Display', 'Helvetica', -apple-system, BlinkMacSystemFont, 'Arial', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: black;
+  margin-bottom: 0.5rem;
+}
+
+.meme-option-button {
+  padding: 1.25rem 2rem;
+  background-color: white;
+  color: black;
+  border: 4px solid black;
+  border-radius: 20px;
+  font-family: 'Helvetica Neue', 'Helvetica Now Display', 'Helvetica', -apple-system, BlinkMacSystemFont, 'Arial', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.meme-option-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.meme-option-button.active {
+  background-color: #178bff;
+  color: white;
+}
+
+.meme-actions {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.meme-action-button {
+  flex: 1;
+  padding: 1rem 2rem;
+  background-color: white;
+  color: black;
+  border: 4px solid black;
+  border-radius: 20px;
+  font-family: 'Helvetica Neue', 'Helvetica Now Display', 'Helvetica', -apple-system, BlinkMacSystemFont, 'Arial', sans-serif;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.meme-action-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  background-color: #178bff;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .meme-generator-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
+  }
+  
+  .meme-generator-title {
+    font-size: 2rem;
+  }
+  
+  .meme-text-literal {
+    font-size: 2rem;
+  }
+  
+  .meme-text-thinks-content {
+    font-size: 1.75rem;
+  }
+}
+

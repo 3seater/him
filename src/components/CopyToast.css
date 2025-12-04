@@ -1,0 +1,30 @@
+.copy-toast-wrapper {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.copy-toast {
+  background-color: #178bff;
+  color: white;
+  padding: 1rem 1.5rem;
+  border-radius: 12px;
+  border: 3px solid black;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: 600;
+  font-size: 1.1rem;
+  white-space: nowrap;
+}
+
+.copy-toast svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
