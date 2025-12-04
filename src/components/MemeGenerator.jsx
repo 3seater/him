@@ -410,7 +410,7 @@ const MemeGenerator = () => {
 
   return (
     <div className="meme-generator">
-      <h2 className="meme-generator-title">Meme Generator</h2>
+      <h2 className="meme-generator-title">HIMulator</h2>
       
       <div className="meme-generator-content">
         <div className="meme-upload-section">

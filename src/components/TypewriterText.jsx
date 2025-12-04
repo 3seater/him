@@ -5,7 +5,9 @@ const TypewriterText = () => {
   const texts = [
     { prefix: 'we are ', bold: 'HIM' },
     { prefix: 'i am ', bold: 'HIM' },
-    { prefix: 'bro thinks hes ', bold: 'HIM' }
+    { prefix: 'bro thinks hes ', bold: 'HIM' },
+    { prefix: 'become ', bold: 'HIM' },
+    { prefix: "i'll never be ", bold: 'HIM' }
   ]
   
   const [currentIndex, setCurrentIndex] = useState(0)
@@ -17,8 +19,8 @@ const TypewriterText = () => {
     const currentText = texts[currentIndex]
     const fullText = currentText.prefix + currentText.bold
 
-    const typeSpeed = isDeleting ? 30 : 60
-    const pauseTime = isDeleting ? 300 : 1500
+    const typeSpeed = isDeleting ? 36 : 72 // Slower typing/deletion (20% slower)
+    const pauseTime = isDeleting ? 360 : 1800 // Longer pause (20% slower)
 
     const timeout = setTimeout(() => {
       if (!isDeleting && charIndex < fullText.length) {

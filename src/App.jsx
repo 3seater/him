@@ -12,11 +12,11 @@ function App() {
     <div className="app">
       <ScrollProgress />
       <CustomCursor />
-      <div className="buttons-container">
-        <SlideInButton label="pump.fun" link="https://pump.fun" />
-        <SlideInButton label="twitter" link="https://twitter.com" />
-        <SlideInButton label="lore" link="https://knowyourmeme.com/memes/bro-thinks-hes-him-im-him" />
-      </div>
+          <div className="buttons-container">
+            <SlideInButton label="pump.fun" link="https://pump.fun" />
+            <SlideInButton label="lore" link="https://knowyourmeme.com/memes/bro-thinks-hes-him-im-him" />
+            <SlideInButton label="twitter" link="https://twitter.com" />
+          </div>
       
       <TypewriterText />
       
