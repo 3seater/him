@@ -37,6 +37,11 @@ const MemeGenerator = () => {
     setIsDragging(true)
   }
 
+  const handleTouchStart = (e) => {
+    e.preventDefault()
+    setIsDragging(true)
+  }
+
   const handleMouseMove = (e) => {
     if (!isDragging || !previewContainerRef.current || !imageUrl) return
     
@@ -50,7 +55,26 @@ const MemeGenerator = () => {
     setTextYPosition(Math.max(10, Math.min(90, yPercentage))) // Clamp between 10% and 90%
   }
 
+  const handleTouchMove = (e) => {
+    if (!isDragging || !previewContainerRef.current || !imageUrl) return
+    
+    e.preventDefault()
+    const container = previewContainerRef.current
+    const rect = container.getBoundingClientRect()
+    const touch = e.touches[0]
+    const x = touch.clientX - rect.left
+    const y = touch.clientY - rect.top
+    const xPercentage = (x / rect.width) * 100
+    const yPercentage = (y / rect.height) * 100
+    setTextXPosition(Math.max(10, Math.min(90, xPercentage))) // Clamp between 10% and 90%
+    setTextYPosition(Math.max(10, Math.min(90, yPercentage))) // Clamp between 10% and 90%
+  }
+
   const handleMouseUp = () => {
+    setIsDragging(false)
+  }
+
+  const handleTouchEnd = () => {
     setIsDragging(false)
   }
 
@@ -58,9 +82,13 @@ const MemeGenerator = () => {
     if (isDragging) {
       window.addEventListener('mousemove', handleMouseMove)
       window.addEventListener('mouseup', handleMouseUp)
+      window.addEventListener('touchmove', handleTouchMove, { passive: false })
+      window.addEventListener('touchend', handleTouchEnd)
       return () => {
         window.removeEventListener('mousemove', handleMouseMove)
         window.removeEventListener('mouseup', handleMouseUp)
+        window.removeEventListener('touchmove', handleTouchMove)
+        window.removeEventListener('touchend', handleTouchEnd)
       }
     }
   }, [isDragging, imageUrl])
@@ -329,6 +357,8 @@ const MemeGenerator = () => {
             ref={previewContainerRef}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
+            onTouchMove={handleTouchMove}
+            onTouchEnd={handleTouchEnd}
           >
             {imageUrl ? (
               <>
@@ -346,6 +376,7 @@ const MemeGenerator = () => {
                       <div 
                         className="meme-text-literal draggable-text"
                         onMouseDown={handleMouseDown}
+                        onTouchStart={handleTouchStart}
                       >
                         i am literally him
                       </div>
@@ -354,6 +385,7 @@ const MemeGenerator = () => {
                       <div 
                         className="meme-text-literal draggable-text"
                         onMouseDown={handleMouseDown}
+                        onTouchStart={handleTouchStart}
                       >
                         i'll never be him
                       </div>
@@ -362,6 +394,7 @@ const MemeGenerator = () => {
                       <div 
                         className="meme-text-literal draggable-text"
                         onMouseDown={handleMouseDown}
+                        onTouchStart={handleTouchStart}
                       >
                         become him
                       </div>
@@ -370,6 +403,7 @@ const MemeGenerator = () => {
                       <div 
                         className="meme-text-literal draggable-text"
                         onMouseDown={handleMouseDown}
+                        onTouchStart={handleTouchStart}
                       >
                         bro is him
                       </div>
@@ -378,6 +412,7 @@ const MemeGenerator = () => {
                       <div 
                         className="meme-text-thinks draggable-text"
                         onMouseDown={handleMouseDown}
+                        onTouchStart={handleTouchStart}
                       >
                         <div className="snapchat-bar" />
                         <div className="meme-text-thinks-content">he thinks he's him 😭</div>
