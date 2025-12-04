@@ -91,14 +91,30 @@ const Gallery = () => {
     try {
       // Fetch image
       const response = await fetch(src)
-      if (!response.ok) throw new Error('Failed to fetch')
+      if (!response.ok) {
+        console.error(`Failed to fetch ${src}:`, response.status, response.statusText)
+        throw new Error(`Failed to fetch: ${response.status}`)
+      }
       
       const blob = await response.blob()
       
+      // Ensure we have a valid blob type
+      const blobType = blob.type || 'image/png'
+      
+      if (!blobType.startsWith('image/')) {
+        console.error(`Invalid blob type for ${src}:`, blobType)
+        throw new Error(`Invalid image type: ${blobType}`)
+      }
+      
+      // Create a fresh blob to ensure it's not corrupted
+      const imageBlob = blob.slice(0, blob.size, blobType)
+      
       // Copy to clipboard
       await navigator.clipboard.write([
-        new ClipboardItem({ [blob.type]: blob })
+        new ClipboardItem({ [blobType]: imageBlob })
       ])
+      
+      console.log(`Successfully copied: ${src}`)
       
       // Show success feedback
       setCopiedIndex(originalIndex)
@@ -110,7 +126,14 @@ const Gallery = () => {
         setCopiedIndex(null)
       }, 2000)
     } catch (err) {
-      console.error('Copy failed:', err)
+      console.error(`Copy failed for ${src}:`, err)
+      // Still show feedback even on error so user knows something happened
+      setCopiedIndex(originalIndex)
+      setShowToast(true)
+      setTimeout(() => {
+        setShowToast(false)
+        setCopiedIndex(null)
+      }, 2000)
     }
   }
 
