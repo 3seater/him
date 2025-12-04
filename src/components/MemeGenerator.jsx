@@ -209,14 +209,88 @@ const MemeGenerator = () => {
         ctx.fillText(text, x, y)
       }
       
-      // Download
-      canvas.toBlob((blob) => {
-        const url = URL.createObjectURL(blob)
-        const a = document.createElement('a')
-        a.href = url
-        a.download = 'him-meme.png'
-        a.click()
-        URL.revokeObjectURL(url)
+      // Download - handle mobile differently
+      canvas.toBlob(async (blob) => {
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent) || 
+                        (window.matchMedia && window.matchMedia('(max-width: 768px)').matches)
+        
+        if (isMobile) {
+          // On mobile, display image in overlay so users can long-press to save to photos
+          const url = URL.createObjectURL(blob)
+          
+          // Try Web Share API first (works on some mobile browsers)
+          if (navigator.share && navigator.canShare) {
+            try {
+              const file = new File([blob], 'him-meme.png', { type: 'image/png' })
+              if (navigator.canShare({ files: [file] })) {
+                await navigator.share({
+                  files: [file],
+                  title: 'HIM Meme',
+                  text: 'Check out this HIM meme!'
+                })
+                URL.revokeObjectURL(url)
+                return
+              }
+            } catch (err) {
+              // Share failed or user cancelled, fall through to image display
+            }
+          }
+          
+          // Create overlay with image for long-press save
+          const overlay = document.createElement('div')
+          overlay.style.position = 'fixed'
+          overlay.style.top = '0'
+          overlay.style.left = '0'
+          overlay.style.width = '100%'
+          overlay.style.height = '100%'
+          overlay.style.backgroundColor = 'rgba(0, 0, 0, 0.9)'
+          overlay.style.zIndex = '10000'
+          overlay.style.display = 'flex'
+          overlay.style.alignItems = 'center'
+          overlay.style.justifyContent = 'center'
+          overlay.style.cursor = 'pointer'
+          
+          const img = document.createElement('img')
+          img.src = url
+          img.style.maxWidth = '95vw'
+          img.style.maxHeight = '95vh'
+          img.style.objectFit = 'contain'
+          img.style.border = '4px solid white'
+          img.style.borderRadius = '15px'
+          img.style.userSelect = 'none'
+          img.style.webkitUserSelect = 'none'
+          
+          const closeText = document.createElement('div')
+          closeText.textContent = 'Tap to close • Long press image to save'
+          closeText.style.position = 'absolute'
+          closeText.style.top = '20px'
+          closeText.style.left = '50%'
+          closeText.style.transform = 'translateX(-50%)'
+          closeText.style.color = 'white'
+          closeText.style.fontFamily = 'Helvetica Neue, Helvetica Now Display, Helvetica, Arial, sans-serif'
+          closeText.style.fontSize = '14px'
+          closeText.style.fontWeight = '500'
+          closeText.style.pointerEvents = 'none'
+          
+          overlay.appendChild(img)
+          overlay.appendChild(closeText)
+          
+          const closeOverlay = () => {
+            document.body.removeChild(overlay)
+            URL.revokeObjectURL(url)
+          }
+          
+          overlay.onclick = closeOverlay
+          document.body.appendChild(overlay)
+        } else {
+          // Desktop: use download attribute
+          const url = URL.createObjectURL(blob)
+          const a = document.createElement('a')
+          a.href = url
+          a.download = 'him-meme.png'
+          a.click()
+          URL.revokeObjectURL(url)
+        }
       })
     }
     
