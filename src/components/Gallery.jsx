@@ -5,13 +5,7 @@ import './Gallery.css'
 const Gallery = () => {
   const [copiedIndex, setCopiedIndex] = useState(null)
   const [showToast, setShowToast] = useState(false)
-  const [toastKey, setToastKey] = useState(0)
   const scrollRef = useRef(null)
-  const animationRef = useRef(null)
-  const startTimeRef = useRef(null)
-  const currentProgressRef = useRef(0)
-  const isHoveringRef = useRef(false)
-  const speedRef = useRef(1) // 1 = normal, 0.5 = slow
 
   const imageSources = [
     '/images/4ced1a3084dd69af3bcb396202e589e9.jpg',
@@ -90,116 +84,76 @@ const Gallery = () => {
     }
   }, [])
 
-  const copyImageToClipboard = async (imageSrc, index) => {
-    // Immediately show feedback with new key to force re-render
-    setCopiedIndex(index)
-    setShowToast(true)
-    setToastKey(prev => prev + 1)
-    
-    setTimeout(() => {
-      setShowToast(false)
-      setTimeout(() => {
-        setCopiedIndex(null)
-      }, 100)
-    }, 2000)
+
+  const handleCopy = async (src, index) => {
+    const originalIndex = index % imageSources.length
     
     try {
-      const response = await fetch(imageSrc)
+      // Fetch image
+      const response = await fetch(src)
+      if (!response.ok) throw new Error('Failed to fetch')
+      
       const blob = await response.blob()
+      
+      // Copy to clipboard
       await navigator.clipboard.write([
-        new ClipboardItem({
-          [blob.type]: blob
-        })
+        new ClipboardItem({ [blob.type]: blob })
       ])
+      
+      // Show success feedback
+      setCopiedIndex(originalIndex)
+      setShowToast(true)
+      
+      // Hide toast after 2 seconds
+      setTimeout(() => {
+        setShowToast(false)
+        setCopiedIndex(null)
+      }, 2000)
     } catch (err) {
-      console.error('Failed to copy image:', err)
+      console.error('Copy failed:', err)
     }
   }
 
   return (
     <>
-      <CopyToast key={toastKey} show={showToast} />
+      <CopyToast show={showToast} />
       <div className="gallery-container">
         <div className="gallery-scroll" ref={scrollRef}>
-          {duplicatedImages.map((src, index) => (
-            <div 
-              key={index} 
-              className="gallery-item"
-            >
-              <img 
-                src={src} 
-                alt={`Gallery image ${index % imageSources.length + 1}`}
-              />
-              <button
-                className="copy-button"
-                onClick={async (e) => {
-                  e.stopPropagation()
-                  e.preventDefault()
-                  
-                  const originalIndex = index % imageSources.length
-                  
-                  // Immediately update UI state
-                  setCopiedIndex(null)
-                  setShowToast(false)
-                  
-                  try {
-                    // Fetch the image with cache-busting
-                    const timestamp = Date.now()
-                    const response = await fetch(`${src}?t=${timestamp}`, { 
-                      cache: 'no-store',
-                      headers: {
-                        'Cache-Control': 'no-cache',
-                        'Pragma': 'no-cache'
-                      }
-                    })
-                    if (!response.ok) throw new Error('Failed to fetch image')
-                    
-                    const blob = await response.blob()
-                    
-                    // Create a fresh blob
-                    const imageBlob = new Blob([blob], { type: blob.type || 'image/png' })
-                    
-                    // Write to clipboard
-                    await navigator.clipboard.write([
-                      new ClipboardItem({
-                        [imageBlob.type]: imageBlob
-                      })
-                    ])
-                    
-                    // Only show feedback after successful clipboard write
-                    setCopiedIndex(originalIndex)
-                    setToastKey(prev => prev + 1)
-                    setShowToast(true)
-                    
-                    // Auto-hide toast after 2 seconds
-                    setTimeout(() => {
-                      setShowToast(false)
-                      setTimeout(() => {
-                        setCopiedIndex(null)
-                      }, 100)
-                    }, 2000)
-                  } catch (err) {
-                    console.error('Failed to copy image:', err)
-                    // Reset state on error
-                    setCopiedIndex(null)
-                    setShowToast(false)
-                  }
-                }}
-                aria-label="Copy image"
+          {duplicatedImages.map((src, index) => {
+            const originalIndex = index % imageSources.length
+            const isCopied = copiedIndex === originalIndex
+            
+            return (
+              <div 
+                key={index} 
+                className="gallery-item"
               >
-                {copiedIndex === (index % imageSources.length) ? (
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M13.5 4L6 11.5L2.5 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                  </svg>
-                ) : (
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect x="5" y="5" width="8" height="8" rx="1" stroke="currentColor" strokeWidth="1.5" fill="none"/>
-                    <path d="M4 3C4 2.44772 4.44772 2 5 2H9.5C9.77614 2 10 2.22386 10 2.5V5H11C11.5523 5 12 5.44772 12 6V11C12 11.5523 11.5523 12 11 12H6C5.44772 12 5 11.5523 5 11V10H3C2.44772 10 2 9.55228 2 9V4C2 3.44772 2.44772 3 3 3H4Z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
-                  </svg>
-                )}
-              </button>
-            </div>
-          ))}
+                <img 
+                  src={src} 
+                  alt={`Gallery image ${originalIndex + 1}`}
+                />
+                <button
+                  className="copy-button"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleCopy(src, index)
+                  }}
+                  aria-label="Copy image"
+                >
+                  {isCopied ? (
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M13.5 4L6 11.5L2.5 8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  ) : (
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="5" y="5" width="8" height="8" rx="1" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+                      <path d="M4 3C4 2.44772 4.44772 2 5 2H9.5C9.77614 2 10 2.22386 10 2.5V5H11C11.5523 5 12 5.44772 12 6V11C12 11.5523 11.5523 12 11 12H6C5.44772 12 5 11.5523 5 11V10H3C2.44772 10 2 9.55228 2 9V4C2 3.44772 2.44772 3 3 3H4Z" stroke="currentColor" strokeWidth="1.5" fill="none"/>
+                    </svg>
+                  )}
+                </button>
+              </div>
+            )
+          })}
         </div>
       </div>
     </>
