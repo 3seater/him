@@ -227,26 +227,18 @@
 }
 
 @media (max-width: 768px) {
-  .chat-backdrop {
-    display: block;
+  .chat-bubble-button {
+    display: none;
   }
   
   .chat-container {
-    width: 100%;
-    height: 100dvh;
-    max-height: 100dvh;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    top: 0;
-    max-width: none;
-    border-radius: 0;
-    border-width: 0;
-    border-bottom: 0;
-    border-top: 0;
-    position: fixed;
-    box-shadow: none;
+    display: none;
   }
+  
+  .chat-backdrop {
+    display: none;
+  }
+}
 
   .chat-bubble-button {
     bottom: 0.75rem;
@@ -347,26 +339,18 @@
 }
 
 @media (max-width: 480px) {
-  .chat-backdrop {
-    display: block;
+  .chat-bubble-button {
+    display: none;
   }
   
   .chat-container {
-    width: 100%;
-    height: 100dvh;
-    max-height: 100dvh;
-    bottom: 0;
-    right: 0;
-    left: 0;
-    top: 0;
-    max-width: none;
-    border-radius: 0;
-    border-width: 0;
-    border-bottom: 0;
-    border-top: 0;
-    position: fixed;
-    box-shadow: none;
+    display: none;
   }
+  
+  .chat-backdrop {
+    display: none;
+  }
+}
 
   .chat-bubble-button {
     bottom: 0.75rem;
