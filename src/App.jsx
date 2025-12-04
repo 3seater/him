@@ -1,6 +1,7 @@
 import SlideInButton from './components/SlideInButton'
 import Gallery from './components/Gallery'
 import TypewriterText from './components/TypewriterText'
+import ContractAddress from './components/ContractAddress'
 import Copyright from './components/Copyright'
 import CustomCursor from './components/CustomCursor'
 import ScrollProgress from './components/ScrollProgress'
@@ -18,9 +19,11 @@ function App() {
             <SlideInButton label="twitter" link="https://twitter.com" />
           </div>
       
-      <TypewriterText />
-      
-      <Gallery />
+          <TypewriterText />
+          
+          <ContractAddress />
+          
+          <Gallery />
       
       <MemeGenerator />
       
