@@ -12,6 +12,7 @@ const Gallery = () => {
   const currentProgressRef = useRef(0)
   const isHoveringRef = useRef(false)
   const speedRef = useRef(1) // 1 = normal, 0.5 = slow
+  const isCopyingRef = useRef(false)
 
   const imageSources = [
     '/images/4ced1a3084dd69af3bcb396202e589e9.jpg',
@@ -134,11 +135,28 @@ const Gallery = () => {
                 className="copy-button"
                 onClick={async (e) => {
                   e.stopPropagation()
+                  
+                  // Prevent multiple simultaneous copies
+                  if (isCopyingRef.current) return
+                  
+                  isCopyingRef.current = true
                   const originalIndex = index % imageSources.length
                   
                   try {
+                    // Reset previous state immediately
+                    setShowToast(false)
+                    setCopiedIndex(null)
+                    
+                    // Small delay to ensure state reset
+                    await new Promise(resolve => setTimeout(resolve, 50))
+                    
                     // Fetch the image with cache-busting to ensure fresh copy
-                    const response = await fetch(src, { cache: 'no-store' })
+                    const response = await fetch(src, { 
+                      cache: 'no-store',
+                      headers: {
+                        'Cache-Control': 'no-cache'
+                      }
+                    })
                     if (!response.ok) throw new Error('Failed to fetch image')
                     
                     const blob = await response.blob()
@@ -155,17 +173,19 @@ const Gallery = () => {
                     
                     // Show feedback after successful copy
                     setCopiedIndex(originalIndex)
-                    setShowToast(true)
                     setToastKey(prev => prev + 1)
+                    setShowToast(true)
                     
                     setTimeout(() => {
                       setShowToast(false)
                       setTimeout(() => {
                         setCopiedIndex(null)
+                        isCopyingRef.current = false
                       }, 100)
                     }, 2000)
                   } catch (err) {
                     console.error('Failed to copy image:', err)
+                    isCopyingRef.current = false
                   }
                 }}
                 aria-label="Copy image"
