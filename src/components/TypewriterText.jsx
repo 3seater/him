@@ -2,13 +2,13 @@ import { useState, useEffect } from 'react'
 import './TypewriterText.css'
 
 const TypewriterText = () => {
-  const texts = [
-    { prefix: 'we are ', bold: 'HIM' },
-    { prefix: 'i am ', bold: 'HIM' },
-    { prefix: 'bro thinks hes ', bold: 'HIM' },
-    { prefix: 'become ', bold: 'HIM' },
-    { prefix: "i'll never be ", bold: 'HIM' }
-  ]
+      const texts = [
+        { prefix: 'we are ', bold: 'HIM' },
+        { prefix: 'i am ', bold: 'HIM' },
+        { prefix: "bro thinks he's ", bold: 'HIM' },
+        { prefix: 'become ', bold: 'HIM' },
+        { prefix: "i'll never be ", bold: 'HIM' }
+      ]
   
   const [currentIndex, setCurrentIndex] = useState(0)
   const [displayText, setDisplayText] = useState('')
