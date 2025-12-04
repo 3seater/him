@@ -1,0 +1,269 @@
+.chat-bubble-button {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 60px;
+  height: 60px;
+  background-color: #178bff;
+  border: 4px solid black;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  pointer-events: auto;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  color: white;
+  padding: 0;
+}
+
+.chat-bubble-button:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+}
+
+.chat-bubble-button:active {
+  transform: scale(0.95);
+}
+
+.chat-bubble-button svg {
+  width: 24px;
+  height: 24px;
+}
+
+.chat-container {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  width: 380px;
+  height: 600px;
+  background-color: white;
+  border: 4px solid black;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  z-index: 10000;
+  pointer-events: auto;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+}
+
+.chat-header {
+  background-color: #178bff;
+  color: white;
+  padding: 1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 4px solid black;
+}
+
+.chat-header-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.chat-bot-name {
+  font-family: 'Helvetica Neue', 'Helvetica Now Display', 'Helvetica', -apple-system, BlinkMacSystemFont, 'Arial', sans-serif;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.chat-status {
+  font-family: 'Helvetica Neue', 'Helvetica Now Display', 'Helvetica', -apple-system, BlinkMacSystemFont, 'Arial', sans-serif;
+  font-weight: 300;
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+.chat-close-button {
+  background: none;
+  border: none;
+  color: white;
+  padding: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
+  pointer-events: auto;
+  z-index: 10001;
+}
+
+.chat-close-button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.chat-close-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background-color: white;
+}
+
+.chat-message {
+  display: flex;
+  gap: 0.75rem;
+  align-items: flex-start;
+}
+
+.chat-message-user {
+  flex-direction: row-reverse;
+}
+
+.chat-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #178bff;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Helvetica Neue', 'Helvetica Now Display', 'Helvetica', -apple-system, BlinkMacSystemFont, 'Arial', sans-serif;
+  font-weight: 700;
+  font-size: 1rem;
+  flex-shrink: 0;
+  border: 2px solid black;
+}
+
+.chat-message-content {
+  max-width: 75%;
+  padding: 0.75rem 1rem;
+  border-radius: 18px;
+  font-family: 'Helvetica Neue', 'Helvetica Now Display', 'Helvetica', -apple-system, BlinkMacSystemFont, 'Arial', sans-serif;
+  font-weight: 300;
+  font-size: 0.95rem;
+  line-height: 1.4;
+  word-wrap: break-word;
+}
+
+.chat-message-bot .chat-message-content {
+  background-color: #f0f0f0;
+  color: black;
+  border: 2px solid black;
+}
+
+.chat-message-user .chat-message-content {
+  background-color: #178bff;
+  color: white;
+  border: 2px solid black;
+}
+
+.chat-input-form {
+  display: flex;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-top: 4px solid black;
+  background-color: white;
+}
+
+.chat-input {
+  flex: 1;
+  padding: 0.75rem 1rem;
+  border: 3px solid black;
+  border-radius: 20px;
+  font-family: 'Helvetica Neue', 'Helvetica Now Display', 'Helvetica', -apple-system, BlinkMacSystemFont, 'Arial', sans-serif;
+  font-weight: 300;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+  pointer-events: auto;
+}
+
+.chat-input:focus {
+  border-color: #178bff;
+}
+
+.chat-send-button {
+  width: 44px;
+  height: 44px;
+  background-color: #178bff;
+  border: 3px solid black;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  padding: 0;
+  flex-shrink: 0;
+  pointer-events: auto;
+}
+
+.chat-send-button:hover {
+  transform: scale(1.1);
+  background-color: #1473d9;
+}
+
+.chat-send-button:active {
+  transform: scale(0.95);
+}
+
+.chat-send-button svg {
+  width: 20px;
+  height: 20px;
+}
+
+@media (max-width: 768px) {
+  .chat-container {
+    width: calc(100% - 2rem);
+    height: calc(100vh - 4rem);
+    bottom: 1rem;
+    right: 1rem;
+    max-width: 380px;
+  }
+
+  .chat-bubble-button {
+    bottom: 1.5rem;
+    right: 1.5rem;
+    width: 56px;
+    height: 56px;
+  }
+
+  .chat-bubble-button svg {
+    width: 22px;
+    height: 22px;
+  }
+}
+
+@media (max-width: 480px) {
+  .chat-container {
+    width: calc(100% - 1rem);
+    height: calc(100vh - 2rem);
+    bottom: 0.5rem;
+    right: 0.5rem;
+    border-radius: 15px;
+  }
+
+  .chat-bubble-button {
+    bottom: 1rem;
+    right: 1rem;
+    width: 52px;
+    height: 52px;
+  }
+
+  .chat-bubble-button svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .chat-messages {
+    padding: 1rem;
+  }
+
+  .chat-input-form {
+    padding: 0.75rem 1rem;
+  }
+}
+

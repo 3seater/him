@@ -7,6 +7,7 @@ import CustomCursor from './components/CustomCursor'
 import ScrollProgress from './components/ScrollProgress'
 import MemeGenerator from './components/MemeGenerator'
 import Preloader from './components/Preloader'
+import ChatBot from './components/ChatBot'
 import './App.css'
 
 function App() {
@@ -30,6 +31,8 @@ function App() {
       <MemeGenerator />
       
       <Copyright />
+      
+      <ChatBot />
     </div>
   )
 }

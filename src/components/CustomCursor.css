@@ -3,9 +3,10 @@
   width: 36px;
   height: 36px;
   pointer-events: none;
-  z-index: 9998;
+  z-index: 10001;
   transform: translate(2px, 2px);
   user-select: none;
+  will-change: transform;
 }
 
 .cursor-trail-text {
