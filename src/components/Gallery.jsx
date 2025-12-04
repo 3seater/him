@@ -12,7 +12,6 @@ const Gallery = () => {
   const currentProgressRef = useRef(0)
   const isHoveringRef = useRef(false)
   const speedRef = useRef(1) // 1 = normal, 0.5 = slow
-  const isCopyingRef = useRef(false)
 
   const imageSources = [
     '/images/4ced1a3084dd69af3bcb396202e589e9.jpg',
@@ -135,57 +134,55 @@ const Gallery = () => {
                 className="copy-button"
                 onClick={async (e) => {
                   e.stopPropagation()
+                  e.preventDefault()
                   
-                  // Prevent multiple simultaneous copies
-                  if (isCopyingRef.current) return
-                  
-                  isCopyingRef.current = true
                   const originalIndex = index % imageSources.length
                   
+                  // Immediately update UI state
+                  setCopiedIndex(null)
+                  setShowToast(false)
+                  
                   try {
-                    // Reset previous state immediately
-                    setShowToast(false)
-                    setCopiedIndex(null)
-                    
-                    // Small delay to ensure state reset
-                    await new Promise(resolve => setTimeout(resolve, 50))
-                    
-                    // Fetch the image with cache-busting to ensure fresh copy
-                    const response = await fetch(src, { 
+                    // Fetch the image with cache-busting
+                    const timestamp = Date.now()
+                    const response = await fetch(`${src}?t=${timestamp}`, { 
                       cache: 'no-store',
                       headers: {
-                        'Cache-Control': 'no-cache'
+                        'Cache-Control': 'no-cache',
+                        'Pragma': 'no-cache'
                       }
                     })
                     if (!response.ok) throw new Error('Failed to fetch image')
                     
                     const blob = await response.blob()
                     
-                    // Create a fresh blob with explicit type
+                    // Create a fresh blob
                     const imageBlob = new Blob([blob], { type: blob.type || 'image/png' })
                     
-                    // Write to clipboard - this will replace any previous clipboard content
+                    // Write to clipboard
                     await navigator.clipboard.write([
                       new ClipboardItem({
                         [imageBlob.type]: imageBlob
                       })
                     ])
                     
-                    // Show feedback after successful copy
+                    // Only show feedback after successful clipboard write
                     setCopiedIndex(originalIndex)
                     setToastKey(prev => prev + 1)
                     setShowToast(true)
                     
+                    // Auto-hide toast after 2 seconds
                     setTimeout(() => {
                       setShowToast(false)
                       setTimeout(() => {
                         setCopiedIndex(null)
-                        isCopyingRef.current = false
                       }, 100)
                     }, 2000)
                   } catch (err) {
                     console.error('Failed to copy image:', err)
-                    isCopyingRef.current = false
+                    // Reset state on error
+                    setCopiedIndex(null)
+                    setShowToast(false)
                   }
                 }}
                 aria-label="Copy image"
