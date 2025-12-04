@@ -92,29 +92,46 @@ const Gallery = () => {
       // Fetch image
       const response = await fetch(src)
       if (!response.ok) {
-        console.error(`Failed to fetch ${src}:`, response.status, response.statusText)
         throw new Error(`Failed to fetch: ${response.status}`)
       }
       
       const blob = await response.blob()
       
-      // Ensure we have a valid blob type
-      const blobType = blob.type || 'image/png'
+      // Convert any image format to PNG using canvas (clipboard API only supports PNG)
+      const img = new Image()
+      const objectUrl = URL.createObjectURL(blob)
       
-      if (!blobType.startsWith('image/')) {
-        console.error(`Invalid blob type for ${src}:`, blobType)
-        throw new Error(`Invalid image type: ${blobType}`)
-      }
+      await new Promise((resolve, reject) => {
+        img.onload = resolve
+        img.onerror = reject
+        img.src = objectUrl
+      })
       
-      // Create a fresh blob to ensure it's not corrupted
-      const imageBlob = blob.slice(0, blob.size, blobType)
+      // Create canvas and draw image
+      const canvas = document.createElement('canvas')
+      canvas.width = img.width
+      canvas.height = img.height
+      const ctx = canvas.getContext('2d')
+      ctx.drawImage(img, 0, 0)
       
-      // Copy to clipboard
+      // Convert canvas to PNG blob
+      const pngBlob = await new Promise((resolve, reject) => {
+        canvas.toBlob((blob) => {
+          if (blob) {
+            resolve(blob)
+          } else {
+            reject(new Error('Failed to convert to PNG'))
+          }
+        }, 'image/png')
+      })
+      
+      // Clean up object URL
+      URL.revokeObjectURL(objectUrl)
+      
+      // Copy PNG to clipboard (PNG is supported by clipboard API)
       await navigator.clipboard.write([
-        new ClipboardItem({ [blobType]: imageBlob })
+        new ClipboardItem({ 'image/png': pngBlob })
       ])
-      
-      console.log(`Successfully copied: ${src}`)
       
       // Show success feedback
       setCopiedIndex(originalIndex)
