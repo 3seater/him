@@ -55,16 +55,16 @@ const Gallery = () => {
       animationId = requestAnimationFrame(animate)
     }
 
-    const handleMouseEnter = () => {
-      targetSpeed = baseSpeed * 0.5 // Slow down to 50% speed
-    }
+        const handleMouseEnter = () => {
+          targetSpeed = baseSpeed * 0.4 // Slow down to 40% speed (20% slower than before)
+        }
 
     const handleMouseLeave = () => {
       targetSpeed = baseSpeed // Return to normal speed
     }
 
     const handleTouchStart = () => {
-      targetSpeed = baseSpeed * 0.3 // Slow down more on touch
+      targetSpeed = baseSpeed * 0.4 // Slow down to 40% speed (matching hover)
     }
 
     const handleTouchEnd = () => {

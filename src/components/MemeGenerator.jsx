@@ -4,6 +4,7 @@ import './MemeGenerator.css'
 const MemeGenerator = () => {
   const [uploadedImage, setUploadedImage] = useState(null)
   const [selectedText, setSelectedText] = useState(null)
+  const [customText, setCustomText] = useState('')
   const [imageUrl, setImageUrl] = useState(null)
   const [textYPosition, setTextYPosition] = useState(50) // Percentage from top (50% = center)
   const [textXPosition, setTextXPosition] = useState(50) // Percentage from left (50% = center)
@@ -95,6 +96,39 @@ const MemeGenerator = () => {
 
   const handleTextSelect = (textType) => {
     setSelectedText(textType)
+    if (textType !== 'custom') {
+      setCustomText('')
+    }
+  }
+
+  const handleCustomTextChange = (e) => {
+    const value = e.target.value
+    setCustomText(value)
+    if (value.trim()) {
+      setSelectedText('custom')
+    } else {
+      setSelectedText(null)
+    }
+  }
+
+  // Function to wrap text based on available width
+  const wrapText = (ctx, text, maxWidth) => {
+    const words = text.split(' ')
+    const lines = []
+    let currentLine = words[0]
+
+    for (let i = 1; i < words.length; i++) {
+      const word = words[i]
+      const width = ctx.measureText(currentLine + ' ' + word).width
+      if (width < maxWidth) {
+        currentLine += ' ' + word
+      } else {
+        lines.push(currentLine)
+        currentLine = word
+      }
+    }
+    lines.push(currentLine)
+    return lines
   }
 
   const handleDownload = () => {
@@ -183,13 +217,31 @@ const MemeGenerator = () => {
         // White fill
         ctx.fillStyle = 'white'
         ctx.fillText(text, x, y)
+      } else if (selectedText === 'am-him') {
+        // "i am him" - white text with black stroke
+        ctx.font = 'bold 60px Helvetica Neue, Helvetica Now Display, Helvetica, Arial, sans-serif'
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        
+        const text = "i am him"
+        const x = (canvas.width * textXPosition) / 100
+        const y = (canvas.height * textYPosition) / 100
+        
+        // Black stroke
+        ctx.strokeStyle = 'black'
+        ctx.lineWidth = 8
+        ctx.strokeText(text, x, y)
+        
+        // White fill
+        ctx.fillStyle = 'white'
+        ctx.fillText(text, x, y)
       } else if (selectedText === 'thinks-him') {
         // "He thinks he's him 😭" with Snapchat story bar
         ctx.font = 'bold 32px Helvetica Neue, Helvetica Now Display, Helvetica, Arial, sans-serif'
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
         
-        const text = "he thinks he's him 😭"
+        const text = "he thinks he's him 😭😭"
         const x = canvas.width / 2
         const y = (canvas.height * textYPosition) / 100
         
@@ -207,6 +259,36 @@ const MemeGenerator = () => {
         ctx.globalAlpha = 1
         ctx.fillStyle = 'white'
         ctx.fillText(text, x, y)
+      } else if (selectedText === 'custom' && customText.trim()) {
+        // Custom text - white text with black stroke (with wrapping)
+        ctx.font = 'bold 60px Helvetica Neue, Helvetica Now Display, Helvetica, Arial, sans-serif'
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        
+        const text = customText.trim()
+        const x = (canvas.width * textXPosition) / 100
+        const baseY = (canvas.height * textYPosition) / 100
+        
+        // Calculate max width (80% of image width, accounting for position)
+        const maxWidth = canvas.width * 0.8
+        const lines = wrapText(ctx, text, maxWidth)
+        const lineHeight = 70 // Line height for 60px font
+        const totalHeight = (lines.length - 1) * lineHeight
+        const startY = baseY - (totalHeight / 2)
+        
+        // Draw each line
+        lines.forEach((line, index) => {
+          const y = startY + (index * lineHeight)
+          
+          // Black stroke
+          ctx.strokeStyle = 'black'
+          ctx.lineWidth = 8
+          ctx.strokeText(line, x, y)
+          
+          // White fill
+          ctx.fillStyle = 'white'
+          ctx.fillText(line, x, y)
+        })
       }
       
       // Download - handle mobile differently
@@ -316,7 +398,7 @@ const MemeGenerator = () => {
         ctx.textBaseline = 'middle'
         
         const text = "i am literally him"
-        const x = canvas.width / 2
+        const x = (canvas.width * textXPosition) / 100
         const y = (canvas.height * textYPosition) / 100
         
         ctx.strokeStyle = 'black'
@@ -331,7 +413,7 @@ const MemeGenerator = () => {
         ctx.textBaseline = 'middle'
         
         const text = "i'll never be him"
-        const x = canvas.width / 2
+        const x = (canvas.width * textXPosition) / 100
         const y = (canvas.height * textYPosition) / 100
         
         ctx.strokeStyle = 'black'
@@ -346,7 +428,7 @@ const MemeGenerator = () => {
         ctx.textBaseline = 'middle'
         
         const text = "become him"
-        const x = canvas.width / 2
+        const x = (canvas.width * textXPosition) / 100
         const y = (canvas.height * textYPosition) / 100
         
         ctx.strokeStyle = 'black'
@@ -361,7 +443,22 @@ const MemeGenerator = () => {
         ctx.textBaseline = 'middle'
         
         const text = "bro is him"
-        const x = canvas.width / 2
+        const x = (canvas.width * textXPosition) / 100
+        const y = (canvas.height * textYPosition) / 100
+        
+        ctx.strokeStyle = 'black'
+        ctx.lineWidth = 8
+        ctx.strokeText(text, x, y)
+        
+        ctx.fillStyle = 'white'
+        ctx.fillText(text, x, y)
+      } else if (selectedText === 'am-him') {
+        ctx.font = 'bold 60px Helvetica Neue, Helvetica Now Display, Helvetica, Arial, sans-serif'
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        
+        const text = "i am him"
+        const x = (canvas.width * textXPosition) / 100
         const y = (canvas.height * textYPosition) / 100
         
         ctx.strokeStyle = 'black'
@@ -375,7 +472,7 @@ const MemeGenerator = () => {
         ctx.textAlign = 'center'
         ctx.textBaseline = 'middle'
         
-        const text = "he thinks he's him 😭"
+        const text = "he thinks he's him 😭😭"
         const x = canvas.width / 2
         const y = (canvas.height * textYPosition) / 100
         
@@ -390,6 +487,33 @@ const MemeGenerator = () => {
         ctx.globalAlpha = 1
         ctx.fillStyle = 'white'
         ctx.fillText(text, x, y)
+      } else if (selectedText === 'custom' && customText.trim()) {
+        ctx.font = 'bold 60px Helvetica Neue, Helvetica Now Display, Helvetica, Arial, sans-serif'
+        ctx.textAlign = 'center'
+        ctx.textBaseline = 'middle'
+        
+        const text = customText.trim()
+        const x = (canvas.width * textXPosition) / 100
+        const baseY = (canvas.height * textYPosition) / 100
+        
+        // Calculate max width (80% of image width, accounting for position)
+        const maxWidth = canvas.width * 0.8
+        const lines = wrapText(ctx, text, maxWidth)
+        const lineHeight = 70 // Line height for 60px font
+        const totalHeight = (lines.length - 1) * lineHeight
+        const startY = baseY - (totalHeight / 2)
+        
+        // Draw each line
+        lines.forEach((line, index) => {
+          const y = startY + (index * lineHeight)
+          
+          ctx.strokeStyle = 'black'
+          ctx.lineWidth = 8
+          ctx.strokeText(line, x, y)
+          
+          ctx.fillStyle = 'white'
+          ctx.fillText(line, x, y)
+        })
       }
       
       canvas.toBlob(async (blob) => {
@@ -442,8 +566,8 @@ const MemeGenerator = () => {
                     className="meme-text-overlay"
                     style={{ 
                       top: `${textYPosition}%`, 
-                      left: selectedText === 'thinks-him' ? '50%' : `${textXPosition}%`,
-                      transform: selectedText === 'thinks-him' ? 'translate(-50%, -50%)' : 'translate(-50%, -50%)'
+                      left: (selectedText === 'thinks-him' || selectedText === 'custom') ? (selectedText === 'thinks-him' ? '50%' : `${textXPosition}%`) : `${textXPosition}%`,
+                      transform: 'translate(-50%, -50%)'
                     }}
                   >
                     {selectedText === 'literally-him' && (
@@ -482,6 +606,15 @@ const MemeGenerator = () => {
                         bro is him
                       </div>
                     )}
+                    {selectedText === 'am-him' && (
+                      <div 
+                        className="meme-text-literal draggable-text"
+                        onMouseDown={handleMouseDown}
+                        onTouchStart={handleTouchStart}
+                      >
+                        i am him
+                      </div>
+                    )}
                     {selectedText === 'thinks-him' && (
                       <div 
                         className="meme-text-thinks draggable-text"
@@ -489,7 +622,16 @@ const MemeGenerator = () => {
                         onTouchStart={handleTouchStart}
                       >
                         <div className="snapchat-bar" />
-                        <div className="meme-text-thinks-content">he thinks he's him 😭</div>
+                        <div className="meme-text-thinks-content">he thinks he's him 😭😭</div>
+                      </div>
+                    )}
+                    {selectedText === 'custom' && customText.trim() && (
+                      <div 
+                        className="meme-text-literal meme-text-custom draggable-text"
+                        onMouseDown={handleMouseDown}
+                        onTouchStart={handleTouchStart}
+                      >
+                        {customText.trim()}
                       </div>
                     )}
                   </div>
@@ -510,17 +652,17 @@ const MemeGenerator = () => {
           <h3 className="meme-options-title">Add Text</h3>
           
           <button
+            className={`meme-option-button ${selectedText === 'thinks-him' ? 'active' : ''}`}
+            onClick={() => handleTextSelect('thinks-him')}
+          >
+            "he thinks he's him 😭😭"
+          </button>
+          
+          <button
             className={`meme-option-button ${selectedText === 'literally-him' ? 'active' : ''}`}
             onClick={() => handleTextSelect('literally-him')}
           >
             "i am literally him"
-          </button>
-          
-          <button
-            className={`meme-option-button ${selectedText === 'thinks-him' ? 'active' : ''}`}
-            onClick={() => handleTextSelect('thinks-him')}
-          >
-            "he thinks he's him 😭"
           </button>
           
           <button
@@ -543,6 +685,23 @@ const MemeGenerator = () => {
           >
             "bro is him"
           </button>
+          
+          <button
+            className={`meme-option-button ${selectedText === 'am-him' ? 'active' : ''}`}
+            onClick={() => handleTextSelect('am-him')}
+          >
+            "i am him"
+          </button>
+          
+          <div className="meme-custom-text-container">
+            <input
+              type="text"
+              className="meme-custom-text-input"
+              placeholder="Custom text..."
+              value={customText}
+              onChange={handleCustomTextChange}
+            />
+          </div>
           
           {imageUrl && selectedText && (
             <div className="meme-actions">

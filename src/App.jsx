@@ -16,7 +16,7 @@ function App() {
           <div className="buttons-container">
             <SlideInButton label="pump.fun" link="https://pump.fun" />
             <SlideInButton label="lore" link="https://knowyourmeme.com/memes/bro-thinks-hes-him-im-him" />
-            <SlideInButton label="twitter" link="https://twitter.com" />
+            <SlideInButton label="twitter" link="https://x.com/tickerHIM" />
           </div>
       
           <TypewriterText />
