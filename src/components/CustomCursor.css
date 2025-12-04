@@ -1,35 +1,11 @@
 .custom-cursor {
   position: fixed;
-  width: 24px;
-  height: 24px;
+  width: 28px;
+  height: 28px;
   pointer-events: none;
   z-index: 9998;
   transform: translate(2px, 2px);
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
-}
-
-.custom-cursor::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 0;
-  height: 0;
-  border-left: 5px solid transparent;
-  border-right: 5px solid transparent;
-  border-bottom: 18px solid white;
-  filter: 
-    drop-shadow(0 0 0 black) 
-    drop-shadow(1.5px 0 0 black) 
-    drop-shadow(-1.5px 0 0 black) 
-    drop-shadow(0 1.5px 0 black) 
-    drop-shadow(0 -1.5px 0 black)
-    drop-shadow(0.5px 0.5px 0 black)
-    drop-shadow(-0.5px 0.5px 0 black)
-    drop-shadow(0.5px -0.5px 0 black)
-    drop-shadow(-0.5px -0.5px 0 black);
+  user-select: none;
 }
 
 .cursor-trail-text {

@@ -61,7 +61,9 @@ const CustomCursor = () => {
 
   return (
     <>
-      <div
+      <img
+        src="/cursor.svg"
+        alt=""
         className="custom-cursor"
         style={{
           left: `${position.x}px`,
